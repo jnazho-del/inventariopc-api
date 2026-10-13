@@ -1,0 +1,22 @@
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {% for campo in formulario %}
+    <div class="mb-3">
+        <label for="" class="form-label fw-bold">{{ campo.label }}</label>
+        
+        <!-- Vista previa de la imagen si ya tiene una subida -->
+        {% if campo.field.widget.input_type == 'file' and campo.value %}
+            <div class="mb-2">
+                <img src="/imagenes/{{ campo.value }}" height="100" alt="Vista previa de imagen">
+            </div>
+        {% endif %}
+        
+        {{ campo }}
+        
+        <div class="col-12 help-text text-danger">{{ campo.errors }}</div>
+    </div>
+    {% endfor %}
+    
+    <input name="" id="" class="btn btn-success" type="submit" value="Guardar información">
+    <a name="" id="" class="btn btn-secondary" href="{% url 'listado_repuestos' %}" role="button">Cancelar y Volver</a>
+</form>

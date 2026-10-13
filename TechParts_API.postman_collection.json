@@ -1,0 +1,587 @@
+{
+	"info": {
+		"_postman_id": "techparts-api-rest",
+		"name": "TechParts - API RESTful",
+		"description": "Colección de pruebas para la API REST de TechParts con Django REST Framework. Incluye operaciones CRUD, gestión de imágenes, casos de validación y autenticación por Token y JWT.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01 - Autenticación y Usuarios",
+			"item": [
+				{
+					"name": "1. Registrar Nuevo Usuario (POST)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"vendedor_tech\",\n    \"email\": \"vendedor@techparts.cl\",\n    \"password\": \"techparts2026\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/registro/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"registro",
+								""
+							]
+						},
+						"description": "Registra un usuario y devuelve su Auth Token directamente."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Obtener Auth Token DRF (POST)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"juan\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/token/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"token",
+								""
+							]
+						},
+						"description": "Obtiene el Token de autenticación de Django REST Framework."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Obtener Token JWT (POST)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"juan\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/jwt/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"jwt",
+								""
+							]
+						},
+						"description": "Obtiene tokens JWT de Acceso y Refresco (Unidad 3)."
+					},
+					"response": []
+				},
+				{
+					"name": "4. Refrescar Token JWT (POST)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"<PEGA_AQUI_TU_REFRESH_TOKEN>\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/jwt/refresh/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"jwt",
+								"refresh",
+								""
+							]
+						},
+						"description": "Renueva el token de acceso JWT."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02 - CRUD Operaciones Exitosas",
+			"item": [
+				{
+					"name": "1. Listar Todos los Repuestos (GET - 200 OK)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								""
+							]
+						},
+						"description": "Consulta el catálogo completo de repuestos. Operación de lectura pública (200 OK)."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Ver Detalle de Repuesto (GET - 200 OK)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/repuestos/2/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								"2",
+								""
+							]
+						},
+						"description": "Consulta un repuesto específico por su ID primario (200 OK)."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Crear Repuesto en JSON (POST - 201 Created)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Memoria RAM Kingston Fury 16GB DDR4\",\n    \"categoria\": \"Memoria RAM\",\n    \"precio\": 42990,\n    \"stock\": 12\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								""
+							]
+						},
+						"description": "Crea un nuevo repuesto con formato JSON autenticado con Token (201 Created)."
+					},
+					"response": []
+				},
+				{
+					"name": "4. Crear Repuesto con Imagen [multipart/form-data] (POST - 201 Created)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "Placa Madre ASUS TUF Gaming B550-PLUS",
+									"type": "text"
+								},
+								{
+									"key": "categoria",
+									"value": "Placa Madre",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "135990",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								""
+							]
+						},
+						"description": "Crea un repuesto enviando un archivo físico de imagen vía multipart/form-data (201 Created)."
+					},
+					"response": []
+				},
+				{
+					"name": "5. Actualizar Repuesto Completo [PUT] (PUT - 200 OK)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"tarjeta de video rtx 3060ti OC Edition\",\n    \"categoria\": \"tarjeta de video\",\n    \"precio\": 115000,\n    \"stock\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/2/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								"2",
+								""
+							]
+						},
+						"description": "Actualiza todos los campos de un repuesto existente (200 OK)."
+					},
+					"response": []
+				},
+				{
+					"name": "6. Actualizar Parcial [PATCH] (PATCH - 200 OK)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"stock\": 10,\n    \"precio\": 99990\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/2/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								"2",
+								""
+							]
+						},
+						"description": "Actualiza únicamente campos específicos como stock o precio (200 OK)."
+					},
+					"response": []
+				},
+				{
+					"name": "7. Eliminar Repuesto [DELETE] (DELETE - 204 No Content)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/repuestos/2/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								"2",
+								""
+							]
+						},
+						"description": "Elimina el registro de la base de datos y borra físicamente su imagen asociada (204 No Content)."
+					},
+					"response": []
+				},
+				{
+					"name": "8. Estadísticas de Inventario (GET - 200 OK)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/repuestos/estadisticas/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								"estadisticas",
+								""
+							]
+						},
+						"description": "Endpoint personalizado que devuelve métricas de stock y categorías."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03 - Casos de Error y Validaciones",
+			"item": [
+				{
+					"name": "1. Error 401 Unauthorized (Crear sin Token)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Intento no autorizado\",\n    \"categoria\": \"Prueba\",\n    \"precio\": 1000,\n    \"stock\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								""
+							]
+						},
+						"description": "Demuestra la protección de rutas: sin token devuelve 401 Unauthorized."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Error 400 Bad Request (Precio Negativo o Cero)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Disco SSD 1TB\",\n    \"categoria\": \"Almacenamiento\",\n    \"precio\": -50000,\n    \"stock\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								""
+							]
+						},
+						"description": "Demuestra validación de datos en Serializer: rechaza precio negativo con 400 Bad Request."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Error 400 Bad Request (Stock Negativo)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Gabinete ATX\",\n    \"categoria\": \"Gabinetes\",\n    \"precio\": 45000,\n    \"stock\": -5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								""
+							]
+						},
+						"description": "Demuestra validación de datos: rechaza stock negativo con 400 Bad Request."
+					},
+					"response": []
+				},
+				{
+					"name": "4. Error 400 Bad Request (Nombre con menos de 3 caracteres)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{auth_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"AB\",\n    \"categoria\": \"Varios\",\n    \"precio\": 1000,\n    \"stock\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								""
+							]
+						},
+						"description": "Demuestra validación de datos: longitud mínima de caracteres con 400 Bad Request."
+					},
+					"response": []
+				},
+				{
+					"name": "5. Error 404 Not Found (Repuesto Inexistente)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/repuestos/99999/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"repuestos",
+								"99999",
+								""
+							]
+						},
+						"description": "Demuestra el manejo del código HTTP 404 al solicitar un recurso que no existe."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "04 - Vistas Alternativas (Generics y FBV)",
+			"item": [
+				{
+					"name": "1. Generics - Listar Repuestos (GET)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/generics/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"generics",
+								"repuestos",
+								""
+							]
+						},
+						"description": "Ruta basada en ListCreateAPIView."
+					},
+					"response": []
+				},
+				{
+					"name": "2. FBV - Listar Repuestos (GET)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/fbv/repuestos/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"fbv",
+								"repuestos",
+								""
+							]
+						},
+						"description": "Ruta basada en Function Based Views @api_view."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "e7a6b1befae7013d2ea70a1989a5dda5b9b613eb",
+			"type": "string"
+		}
+	]
+}

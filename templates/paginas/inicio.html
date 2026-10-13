@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block contenido %}
+<div class="p-5 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Bienvenido a TechParts Limitada</h1>
+        <p class="col-md-8 fs-4">Sistema de gestión y catálogo de repuestos de computadora (nuevos y usados).</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'listado_repuestos' %}" role="button">Ver Inventario</a>
+    </div>
+</div>
+{% endblock %}

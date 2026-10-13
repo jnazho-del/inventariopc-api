@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block titulo %}Crear Repuesto{% endblock %}
+
+{% block contenido %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <strong>Ingresar un nuevo Repuesto al sistema</strong>
+    </div>
+    <div class="card-body">
+        {% include 'repuestos/form.html' %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar Repuesto{% endblock %}
+
+{% block contenido %}
+<div class="card shadow">
+    <div class="card-header bg-info text-white">
+        <strong>Editar información del Repuesto</strong>
+    </div>
+    <div class="card-body">
+        {% include 'repuestos/form.html' %}
+    </div>
+</div>
+{% endblock %}
